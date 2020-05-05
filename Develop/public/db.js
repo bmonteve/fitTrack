@@ -1,3 +1,3 @@
 let db;
 // create a new db request for a "budget" database.
-const request = indexedDB.open("exercise", 1);
+const request = indexedDB.open("workout", 1);
