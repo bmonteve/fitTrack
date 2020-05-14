@@ -31,7 +31,7 @@ app.get("/", function(req, res) {
 
 app.put("/api/workouts/:id", ({body},res)=>{
   db.Exercise.create(body)
-  .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { workouts: _id } }, { new: true }))
+  .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { exercises: _id } }, { new: true }))
   .then(exercises => {
     res.json(exercises);
   })
@@ -50,13 +50,27 @@ app.post("/api/workouts", ({body}, res) => {
   })
 })
 
+app.get("/api/workouts/range", (req, res) => {
+  db.Workout.find({})
+  .populate("exercises")
+  .then(workout => {
+    res.json(workout);
+  });
+})
+
 app.get("/find", (req, res) => {
   db.Workout.find({})
-  .populate("workouts")
-  .then(workouts => {
-    res.json(workouts);
+  .populate("exercises")
+  .then(exercise => {
+    res.json(exercise);
   })
+})
 
+app.get("/remove", (req, res) => {
+  db.Workout.remove({})
+  .then(exercise => {
+    res.json(exercise);
+  })
 })
 
 app.listen(PORT, () => {
